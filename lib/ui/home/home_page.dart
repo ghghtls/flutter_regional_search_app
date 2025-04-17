@@ -14,9 +14,9 @@ class _HomePageState extends State<HomePage> {
         title: TextField(
           controller: textEditingController,
           decoration: InputDecoration(
+            ///컬럼내 타이틀로 변경
             hintText: '검색어를 입력해 주세요',
 
-            ///컬럼내 타이틀로 변경
             border: WidgetStateInputBorder.resolveWith((
               Set<WidgetState> states,
             ) {
@@ -33,8 +33,11 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: Column(
+      body: Container(
         ///title,category,roadAddress
+        child: Column(
+          children: [Text('title'), Text('category'), Text('roadAddress')],
+        ),
       ),
     );
   }
