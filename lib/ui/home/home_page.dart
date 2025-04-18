@@ -68,71 +68,82 @@ class _HomePageState extends ConsumerState<HomePage> {
           ),
         ],
       ),
-      body:
-          homeState.location.isEmpty
-              ? Center(child: Text('검색 결과가 없습니다'))
-              : ListView.builder(
-                itemCount: homeState.location.length,
-                itemBuilder: (context, index) {
-                  SizedBox(height: 50);
-                  final loc = homeState.location[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return DetailPage(loc);
+      body: Column(
+        children: [
+          SizedBox(height: 16),
+          Expanded(
+            child:
+                homeState.location.isEmpty
+                    ? Center(child: Text('검색 결과가 없습니다'))
+                    : ListView.separated(
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      itemCount: homeState.location.length,
+                      separatorBuilder: (_, __) => SizedBox(height: 12),
+                      itemBuilder: (context, index) {
+                        final loc = homeState.location[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return DetailPage(loc);
+                                },
+                              ),
+                            );
                           },
-                        ),
-                      );
-                    },
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black12,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            loc.title,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                          child: Container(
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            padding: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[100],
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black12,
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  loc.title,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  loc.category,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  loc.roadAddress,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          SizedBox(height: 4),
-                          Text(
-                            loc.category,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black54,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            loc.roadAddress,
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ],
-                      ),
+                        );
+                      },
                     ),
-                  );
-                },
-              ),
+          ),
+        ],
+      ),
     );
   }
 }
