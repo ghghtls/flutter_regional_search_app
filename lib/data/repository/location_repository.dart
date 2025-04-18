@@ -4,23 +4,28 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
 
-import 'package:http/http.dart' as client;
-
 class LocationRepository {
   final Dio dio = Dio(
     BaseOptions(
       baseUrl: 'https://openapi.naver.com/v1/search/',
       headers: {
-        'X-Naver-Client-Id': dotenv.env['NAVER_CLIENT_ID'],
-        'X-Naver-Client-Secret': dotenv.env['NAVER_CLIENT_SECRET'],
+        'X-Naver-Client-Id': '_qoNMygDh0Ytq3YJozlo',
+        'X-Naver-Client-Secret': 'L6yxGm2a8F',
       },
     ),
   );
   Future<List<Location>> locationSearch(String query) async {
+    print('네이버 헤더: ${dio.options.headers}');
     try {
       final response = await dio.get(
         'local.json',
         queryParameters: {'query': query, 'display': 5},
+        options: Options(
+          headers: {
+            'X-Naver-Client-Id': '_qoNMygDh0Ytq3YJozlo',
+            'X-Naver-Client-Secret': 'L6yxGm2a8F',
+          },
+        ),
       );
 
       if (response.statusCode == 200) {

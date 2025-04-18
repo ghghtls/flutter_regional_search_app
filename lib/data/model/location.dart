@@ -10,14 +10,7 @@ class Location {
     required this.category,
     required this.roadAddress,
   });
-  /*
-{
-      "title": "<b>TEXT</b>",
-      "link": "http://www.texttexttext.com/",
-      "category": "전문,기술서비스>전문디자인",
-      "roadAddress": "서울특별시 마포구 성미산로 68 2층",
-    }
- */
+
   ///1. fromJson 네임드 생성자 만들기
   Location.fromJson(Map<String, dynamic> map)
     : this(

@@ -50,6 +50,23 @@ class _HomePageState extends ConsumerState<HomePage> {
             }),
           ),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.gps_fixed),
+            tooltip: '현재 위치로 검색',
+            onPressed: () async {
+              try {
+                // 현재 위치 기반 장소 검색 요청
+                await ref
+                    .read(HomeViewModelProvider.notifier)
+                    .searchFromCurrentLatLng();
+              } catch (e) {
+                // 오류 처리 (필요하면 SnackBar 등으로 사용자에게 알리기)
+                print('위치 기반 검색 실패: $e');
+              }
+            },
+          ),
+        ],
       ),
       body:
           homeState.location.isEmpty
@@ -57,6 +74,7 @@ class _HomePageState extends ConsumerState<HomePage> {
               : ListView.builder(
                 itemCount: homeState.location.length,
                 itemBuilder: (context, index) {
+                  SizedBox(height: 50);
                   final loc = homeState.location[index];
                   return GestureDetector(
                     onTap: () {

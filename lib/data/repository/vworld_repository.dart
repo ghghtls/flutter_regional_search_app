@@ -8,15 +8,47 @@ class VworldRepository {
       validateStatus: (status) => true,
     ),
   );
+  // 1. 이름으로 검색하는 기능
+  Future<List<String>> findByName(String query) async {
+    try {
+      final response = await _client.get(
+        'https://api.vworld.kr/req/search',
+        queryParameters: {
+          'request': 'search',
+          'key': '06F3B570-B600-33DA-AA37-2A55E20A52E4',
+          'query': query,
+          'type': 'DISTRICT',
+          'category': 'L4',
+        },
+      );
+      if (response.statusCode == 200 &&
+          response.data['response']['status'] == 'OK') {
+        // Response > result > items >> title
+        final items = response.data['response']['result']['items'];
+        final itemList = List.from(items);
+        final iterable = itemList.map((item) {
+          return '${item['title']}';
+        });
+        return iterable.toList();
+      }
 
-  //위도 경도로 검색하는 기능
+      return [];
+    } catch (e) {
+      print(e);
+      return [];
+    }
+  }
+
+  // 2. 위도 경도로 검색하는 기능
   Future<List<String>> findByLatLng(double lat, double lng) async {
+    print('현재 위치: $lat, $lng');
+
     try {
       final response = await _client.get(
         'https://api.vworld.kr/req/data',
         queryParameters: {
           'request': 'GetFeature',
-          'key': dotenv.env['key'],
+          'key': '06F3B570-B600-33DA-AA37-2A55E20A52E4',
           'data': 'LT_C_ADEMD_INFO',
           'geomFilter': 'POINT($lng $lat)',
           'geometry': false,
@@ -30,15 +62,16 @@ class VworldRepository {
             response
                 .data['response']['result']['featureCollection']['features'];
         final featureList = List.from(features);
-        final iterable = featureList.map((feat) {
-          return '${feat['properties']['full_nm']}';
-        });
-        return iterable.toList();
+        final result =
+            featureList
+                .map((feat) => feat['properties']['full_nm'].toString())
+                .toList();
+        return result;
       }
 
       return [];
     } catch (e) {
-      print(e);
+      print('findByLatLng 에러: $e');
       return [];
     }
   }
