@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_regional_search_app/ui/detail/detail_page.dart';
 import 'package:flutter_regional_search_app/ui/home/home_view_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -57,41 +58,59 @@ class _HomePageState extends ConsumerState<HomePage> {
                 itemCount: homeState.location.length,
                 itemBuilder: (context, index) {
                   final loc = homeState.location[index];
-                  return Container(
-                    margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    padding: EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[100],
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
-                          offset: Offset(0, 2),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return DetailPage(loc);
+                          },
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          loc.title,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 4,
+                            offset: Offset(0, 2),
                           ),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          loc.category,
-                          style: TextStyle(fontSize: 14, color: Colors.black54),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          loc.roadAddress,
-                          style: TextStyle(fontSize: 14, color: Colors.black87),
-                        ),
-                      ],
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            loc.title,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            loc.category,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black54,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            loc.roadAddress,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.black87,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
