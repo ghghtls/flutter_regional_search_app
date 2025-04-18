@@ -19,7 +19,7 @@ class LocationRepository {
     try {
       final response = await dio.get(
         'local.json',
-        queryParameters: {'query': query},
+        queryParameters: {'query': query, 'display': 5},
       );
 
       if (response.statusCode == 200) {
