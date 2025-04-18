@@ -1,31 +1,37 @@
 import 'package:flutter_regional_search_app/data/model/location.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:dio/dio.dart';
 
 import 'package:http/http.dart' as client;
 
 class LocationRepository {
-  Future<List<Location>> locationSearch(String query) async {
-    final client = Client();
-    final response = await client.get(
-      Uri.parse('https://openapi.naver.com/v1/search/local.json?query=$query'),
+  final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: 'https://openapi.naver.com/v1/search/',
       headers: {
         'X-Naver-Client-Id': 'h7GUG8LSHVAS8_V2LUkE',
         'X-Naver-Client-Secret': 'XbwI_5Zfzw',
       },
-    );
-    if (response.statusCode == 200) {
-      Map<String, dynamic> map = jsonDecode(response.body);
-      final items = List.from(map['items']);
+    ),
+  );
+  Future<List<Location>> locationSearch(String query) async {
+    try {
+      final response = await dio.get(
+        'local.json',
+        queryParameters: {'query': query},
+      );
 
-      final iterable = items.map((e) {
-        return Location.fromJson(e);
-      });
-
-      final list = iterable.toList();
-      return list;
+      if (response.statusCode == 200) {
+        final items = List.from(response.data['items']);
+        return items.map((e) => Location.fromJson(e)).toList();
+      }
+    } on DioException catch (e) {
+      print('Dio Error: ${e.message}');
+    } catch (e) {
+      print('Unknown Error: $e');
     }
-    //빈리스트 반환
+
     return [];
   }
 }
