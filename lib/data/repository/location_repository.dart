@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_regional_search_app/data/model/location.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
@@ -10,8 +11,8 @@ class LocationRepository {
     BaseOptions(
       baseUrl: 'https://openapi.naver.com/v1/search/',
       headers: {
-        'X-Naver-Client-Id': 'h7GUG8LSHVAS8_V2LUkE',
-        'X-Naver-Client-Secret': 'XbwI_5Zfzw',
+        'X-Naver-Client-Id': dotenv.env['NAVER_CLIENT_ID'],
+        'X-Naver-Client-Secret': dotenv.env['NAVER_CLIENT_SECRET'],
       },
     ),
   );
